@@ -1,0 +1,59 @@
+```html
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>秒針時計アプリ</title>
+    <style>
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="clock" style="width: 400px; height: 400px; border: 4px solid black; border-radius: 50%; position: relative; margin: 0 auto;">
+        <div id="second-hand" style="width: 2px; height: 200px; background-color: red; position: absolute; top: 0; left: 50%; transform-origin: bottom; transform: rotate(0deg);"></div>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <input id="seconds-input" type="number" placeholder="秒数を入力" style="font-size: 16px; padding: 5px; width: 150px; margin-bottom: 10px;">
+        <br>
+        <button id="start-button" style="font-size: 16px; padding: 10px; background-color: blue; color: white; border: none; border-radius: 5px;">START▶</button>
+        <button id="stop-button" style="font-size: 16px; padding: 10px; background-color: red; color: white; border: none; border-radius: 5px;">STOP■</button>
+    </div>
+
+    <script>
+        const secondHand = document.getElementById('second-hand');
+        let animationId;
+
+        document.getElementById('start-button').addEventListener('click', () => {
+            const seconds = document.getElementById('seconds-input').value || 60;
+            const duration = seconds * 1000;
+
+            secondHand.style.transition = `transform ${seconds}s linear`;
+            secondHand.style.transform = 'rotate(360deg)';
+
+            animationId = setTimeout(() => {
+                secondHand.style.transition = '';
+                secondHand.style.transform = 'rotate(0deg)';
+            }, duration);
+        });
+
+        document.getElementById('stop-button').addEventListener('click', () => {
+            clearTimeout(animationId);
+            secondHand.style.transition = '';
+            secondHand.style.transform = 'rotate(0deg)';
+        });
+    </script>
+</body>
+
+</html>
+```
